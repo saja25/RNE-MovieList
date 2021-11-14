@@ -1,33 +1,30 @@
 import { API_KEY } from "./Key";
-const genres = {
-  12: "Adventure",
-  14: "Fantasy",
-  16: "Animation",
-  18: "Drama",
-  27: "Horror",
-  28: "Action",
-  35: "Comedy",
-  36: "History",
-  37: "Western",
-  53: "Thriller",
-  80: "Crime",
-  99: "Documentary",
-  878: "Science Fiction",
-  9648: "Mystery",
-  10402: "Music",
-  10749: "Romance",
-  10751: "Family",
-  10752: "War",
-  10770: "TV Movie",
-};
 
-const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
+// const API_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc`;
 const getImagePath = (path) =>
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
 const getBackdropPath = (path) =>
   `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
+export const MOVIES_CATEGORIES = {
+  POPULAR: { code: "POPULAR", name_en: "Popular", name_ar: "شائع" },
+  LATEST: { code: "LATEST", name_en: "Latest", name_ar: "احدث الافلام" },
+  UPCOMING: { code: "UPCOMING", name_en: "Upcoming", name_ar: "القادمة قريبا" },
+  TOP_RATED: {
+    code: "TOP_RATED",
+    name_en: "Top Rated",
+    name_ar: "الاعلى تقييما",
+  },
+  NOW_PLAYING: {
+    code: "NOW_PLAYING",
+    name_en: "Now Playing",
+    name_ar: "في دور العرض",
+  },
+};
 
-export const getMovies = async () => {
+export const getMovies = async (category) => {
+  const API_URL = category
+    ? `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&language=en-US&page=1`
+    : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
   try {
     const { results } = await fetch(API_URL).then((x) => x.json());
     const movies = results.map(
@@ -109,4 +106,28 @@ export const getMovieSearch = async (query) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const LATEST_URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`;
+
+const genres = {
+  12: "Adventure",
+  14: "Fantasy",
+  16: "Animation",
+  18: "Drama",
+  27: "Horror",
+  28: "Action",
+  35: "Comedy",
+  36: "History",
+  37: "Western",
+  53: "Thriller",
+  80: "Crime",
+  99: "Documentary",
+  878: "Science Fiction",
+  9648: "Mystery",
+  10402: "Music",
+  10749: "Romance",
+  10751: "Family",
+  10752: "War",
+  10770: "TV Movie",
 };

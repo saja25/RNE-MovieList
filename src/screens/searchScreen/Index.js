@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import { styles } from "./Styles";
-import {
-  View,
-  FlatList,
-  Text,
-  TextInput,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { getMovieSearch } from "../../api/Index";
 import AnimatedCarasol from "../../components/animatedcarasol/Index";
@@ -23,10 +16,8 @@ export default function Index({ route, navigation }) {
     const fetchData = await getMovieSearch(searchQuery);
     fetchData &&
       setResults([{ key: "empty-left" }, ...fetchData, { key: "empty-right" }]);
-    console.log("resultsssss frommmm searchhhhh", results);
     sethide(true);
   };
-  console.log("resultsssss frommmm searchhhhh", results);
 
   return (
     <>
