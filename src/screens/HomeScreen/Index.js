@@ -5,7 +5,7 @@ import { styles } from "./Styles";
 import Loading from "../../components/loading/Index";
 import AnimatedCarasol from "../../components/animatedcarasol/Index";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 export default function Index() {
   const navigation = useNavigation();
   const [movies, setMovies] = useState([]);

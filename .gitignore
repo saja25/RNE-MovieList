@@ -14,3 +14,4 @@ web-build/
 .DS_Store
 #files
 src/api/key.js
+src/api/firebaseConfig.js

@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { View, Text, TouchableWithoutFeedback, Image } from "react-native";
 import { styles } from "./Styles";
 export default function Index({ item }) {
-  // console.log(item);
   const [textShown, setTextShown] = useState(false);
   const [lengthMore, setLengthMore] = useState(false);
   const toggleNumberOfLines = () => {
@@ -10,7 +9,6 @@ export default function Index({ item }) {
   };
   const onTextLayout = useCallback((e) => {
     setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
-    // console.log(e.nativeEvent);
   }, []);
   return (
     <TouchableWithoutFeedback>
@@ -32,7 +30,6 @@ export default function Index({ item }) {
                 >
                   {item.author}
                 </Text>
-                <Text>{item.time.split("T")[0]}</Text>
               </View>
             </View>
 

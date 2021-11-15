@@ -1,5 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,7 +22,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   srearchInput: {
-    // backgroundColor: "red",
     width: 150,
+  },
+  nomatch: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
   },
 });

@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     margin: 4,
     padding: 10,
     overflow: "hidden",
+    minWidth: "95%",
   },
   cardHeader: {
     flexDirection: "row",

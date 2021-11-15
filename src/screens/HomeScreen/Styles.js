@@ -1,6 +1,4 @@
-import { StyleSheet, Platform, Dimensions } from "react-native";
-const width = Dimensions.get("window").width;
-const ITEM_SIZE = Platform.OS === "ios" ? width * 0.72 : width * 0.74;
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   viewIcon: {

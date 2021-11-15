@@ -1,45 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { styles } from "./Styles";
-import {
-  View,
-  FlatList,
-  Image,
-  Dimensions,
-  Platform,
-  Text,
-  TextInput,
-  Animated,
-  TouchableOpacity,
-} from "react-native";
+import { View, Image, Text, TextInput, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Genres from "../../components/geners/Index";
 import Rating from "../../components/rating/Index";
 import { getMovieReviews } from "../../api/Index";
 import Start from "../../components/reviewStars/Index";
-// const { width, height } = Dimensions.get("window");
+import firebase from "firebase/compat/app";
 
 export default function Index({ route, navigation }) {
   const item = route.params.item;
-  // const [screenHeight, setscreenHeight] = useState();
+  let movieId = item.key;
   const [reviews, setReviews] = useState([]);
-  // const onContentSizeChange = (contentWidth, contentHeight) => {
-  //   setscreenHeight(contentHeight);
-  // };
-  // const scrollEnable = screenHeight > height;
   const [comment, setComment] = useState("leave a review");
 
   const addComment = (value) => {
     setComment(value);
-    // console.log(value);
   };
   const onSubmitEditing = () => {
-    console.log(comment);
+    firebase
+      .firestore()
+      .collection("reviews")
+      .add({
+        review: comment,
+        author: "guest user",
+        movieId: item.key,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
+        avatar: " ",
+      })
+      .then((error) => console.log(error))
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+    fetchData();
+  };
+  const fetchData = async () => {
+    const fetchedReviews = await getMovieReviews(item.key);
+    let arr = [];
+    const data = await firebase
+      .firestore()
+      .collection("reviews")
+      .where("movieId", "==", movieId)
+      .get();
+    data.docs.map((doc) => arr.push(doc.data()));
+    arr.length > 0 || fetchedReviews.length > 0
+      ? setReviews([...fetchedReviews, ...arr])
+      : null;
   };
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedReviews = await getMovieReviews(item.key);
-      setReviews(fetchedReviews);
-    };
     if (reviews.length === 0) {
       fetchData();
     }
@@ -79,7 +87,6 @@ export default function Index({ route, navigation }) {
                 onChangeText={(text) => addComment(text)}
                 value={comment}
                 onSubmitEditing={onSubmitEditing}
-                // style={styles.srearchInput}
               />
             </View>
             <Start />
@@ -88,7 +95,9 @@ export default function Index({ route, navigation }) {
           {reviews.length > 0 ? (
             <TouchableOpacity
               style={styles.review}
-              onPress={() => navigation.navigate("Review", { reviews })}
+              onPress={() =>
+                navigation.navigate("Review", { reviews, movieId })
+              }
             >
               <Text>SEE ALL REVIEWS ...</Text>
             </TouchableOpacity>

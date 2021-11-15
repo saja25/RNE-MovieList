@@ -41,12 +41,8 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   review: {
-    // margin: 8,
     fontWeight: "bold",
-    // borderWidth: 1,
-    // borderRadius: 14,
     borderColor: "gray",
-    // marginHorizontal: 6,
     paddingHorizontal: 8,
     paddingVertical: 2,
     opacity: 0.6,
@@ -61,6 +57,5 @@ export const styles = StyleSheet.create({
     padding: 3,
     paddingHorizontal: 10,
     borderColor: "gray",
-    // alignSelf: "stretch",
   },
 });

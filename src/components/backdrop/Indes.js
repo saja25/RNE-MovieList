@@ -24,7 +24,6 @@ export default function Index({ movies, scrollX }) {
     >
       <FlatList
         data={movies}
-        //.reverse()
         keyExtractor={(item) => item.key + "-backdrop"}
         removeClippedSubviews={false}
         contentContainerStyle={{ width, height: BACKDROP_HEIGHT }}
@@ -35,7 +34,6 @@ export default function Index({ movies, scrollX }) {
           const translateX = scrollX.interpolate({
             inputRange: [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE],
             outputRange: [0, width],
-            // extrapolate:'clamp'
           });
           return (
             <Animated.View

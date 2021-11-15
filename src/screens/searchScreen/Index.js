@@ -7,16 +7,16 @@ import AnimatedCarasol from "../../components/animatedcarasol/Index";
 export default function Index({ route, navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [hide, sethide] = useState(false);
+  const [show, setshow] = useState(false);
   const onChangeSearch = async (query) => {
     setSearchQuery(query);
-    // console.log(searchQuery);
   };
   const onSubmitEditing = async () => {
     const fetchData = await getMovieSearch(searchQuery);
-    fetchData &&
+    fetchData.length > 0 &&
       setResults([{ key: "empty-left" }, ...fetchData, { key: "empty-right" }]);
-    sethide(true);
+    fetchData.length == 0 && setResults([]);
+    fetchData.length == 0 && setshow(true);
   };
 
   return (
@@ -39,13 +39,15 @@ export default function Index({ route, navigation }) {
           />
         </View>
       </View>
-      <View>
-        {results.length > 0 ? (
-          <AnimatedCarasol data={results} />
-        ) : (
-          hide && <Text>No matches found.....</Text>
-        )}
-      </View>
+      {/* <View> */}
+      {results.length > 0 ? (
+        <AnimatedCarasol data={results} />
+      ) : (
+        <View style={styles.nomatch}>
+          {show && <Text>No matches found.....</Text>}
+        </View>
+      )}
+      {/* </View> */}
     </>
   );
 }
