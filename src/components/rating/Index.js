@@ -1,9 +1,9 @@
-import * as React from "react";
+import React from "react";
 import { View, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { styles } from "./Styles";
 
-export default function Rating({ rating }) {
+export default function Index({ rating }) {
   const filledStars = Math.floor(rating / 2);
   const maxStars = Array(5 - filledStars).fill("staro");
   const r = [...Array(filledStars).fill("star"), ...maxStars];

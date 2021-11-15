@@ -5,21 +5,25 @@ const getImagePath = (path) =>
   `https://image.tmdb.org/t/p/w440_and_h660_face${path}`;
 const getBackdropPath = (path) =>
   `https://image.tmdb.org/t/p/w370_and_h556_multi_faces${path}`;
-export const MOVIES_CATEGORIES = {
-  POPULAR: { code: "POPULAR", name_en: "Popular", name_ar: "شائع" },
-  LATEST: { code: "LATEST", name_en: "Latest", name_ar: "احدث الافلام" },
-  UPCOMING: { code: "UPCOMING", name_en: "Upcoming", name_ar: "القادمة قريبا" },
-  TOP_RATED: {
-    code: "TOP_RATED",
-    name_en: "Top Rated",
-    name_ar: "الاعلى تقييما",
-  },
-  NOW_PLAYING: {
-    code: "NOW_PLAYING",
-    name_en: "Now Playing",
-    name_ar: "في دور العرض",
-  },
-};
+
+const getAvtarPath = (path) =>
+  `https://image.tmdb.org/t/p/w64_and_h64_face${path}`;
+
+// export const MOVIES_CATEGORIES = {
+//   POPULAR: { code: "POPULAR", name_en: "Popular", name_ar: "شائع" },
+//   LATEST: { code: "LATEST", name_en: "Latest", name_ar: "احدث الافلام" },
+//   UPCOMING: { code: "UPCOMING", name_en: "Upcoming", name_ar: "القادمة قريبا" },
+//   TOP_RATED: {
+//     code: "TOP_RATED",
+//     name_en: "Top Rated",
+//     name_ar: "الاعلى تقييما",
+//   },
+//   NOW_PLAYING: {
+//     code: "NOW_PLAYING",
+//     name_en: "Now Playing",
+//     name_ar: "في دور العرض",
+//   },
+// };
 
 export const getMovies = async (category) => {
   const API_URL = category
@@ -65,7 +69,8 @@ export const getMovieReviews = async (movie_id) => {
         review: content,
         time: created_at,
         key: id,
-        author_details,
+        rating: author_details.rating,
+        avatar: getAvtarPath(author_details.avatar_path),
       })
     );
     // console.log(reviews);

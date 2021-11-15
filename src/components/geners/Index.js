@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { styles } from "./Styles";
 
-export default function Genres({ genres }) {
+export default function Index({ genres }) {
   return (
     <View style={styles.genres}>
       {genres.map((genre, i) => {

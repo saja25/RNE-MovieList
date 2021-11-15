@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen/Index";
 import MovieDetailsScreen from "../screens/MovieDetailsScreen/Index";
 import SearchScreen from "../screens/searchScreen/Index";
-
+import ReviewScreen from "../screens/ReviewScreen/Index";
 const Stack = createNativeStackNavigator();
 
 function Index() {
@@ -25,6 +25,11 @@ function Index() {
         <Stack.Screen
           name="SearchScreen"
           component={SearchScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Review"
+          component={ReviewScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

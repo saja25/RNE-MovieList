@@ -10,12 +10,6 @@ export const styles = StyleSheet.create({
     zIndex: 10,
     flexDirection: "row",
   },
-  // genres: {
-  //   // flexDirection: "row",
-  //   // flexWrap: "wrap",
-  //   // justifyContent: "center",
-  //   marginVertical: 4,
-  // },
   genre: {
     borderWidth: 1,
     borderRadius: 14,

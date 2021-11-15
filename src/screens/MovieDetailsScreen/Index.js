@@ -7,30 +7,33 @@ import {
   Dimensions,
   Platform,
   Text,
+  TextInput,
+  Animated,
+  TouchableOpacity,
 } from "react-native";
-import SlidingPanel from "react-native-sliding-up-down-panels";
 import { AntDesign } from "@expo/vector-icons";
 import Genres from "../../components/geners/Index";
 import Rating from "../../components/rating/Index";
 import { getMovieReviews } from "../../api/Index";
-import ReviewCard from "../../components/reviewCard/Index";
-const { width, height } = Dimensions.get("window");
-const ITEM_SIZE = Platform.OS === "ios" ? width * 0.72 : width * 0.74;
-const BACKDROP_HEIGHT = height * 0.65;
+import Start from "../../components/reviewStars/Index";
+// const { width, height } = Dimensions.get("window");
 
 export default function Index({ route, navigation }) {
   const item = route.params.item;
-  // console.log(item);
-  const [screenHeight, setscreenHeight] = useState();
-  const [comment, setComment] = useState(" ");
+  // const [screenHeight, setscreenHeight] = useState();
   const [reviews, setReviews] = useState([]);
-  const onContentSizeChange = (contentWidth, contentHeight) => {
-    setscreenHeight(contentHeight);
-  };
-  const scrollEnable = screenHeight > height;
-  const addComment = ({ value }) => {
+  // const onContentSizeChange = (contentWidth, contentHeight) => {
+  //   setscreenHeight(contentHeight);
+  // };
+  // const scrollEnable = screenHeight > height;
+  const [comment, setComment] = useState("leave a review");
+
+  const addComment = (value) => {
     setComment(value);
-    console.log(value);
+    // console.log(value);
+  };
+  const onSubmitEditing = () => {
+    console.log(comment);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +44,6 @@ export default function Index({ route, navigation }) {
       fetchData();
     }
   }, [reviews]);
-  console.log(reviews);
 
   return (
     <>
@@ -53,102 +55,50 @@ export default function Index({ route, navigation }) {
           onPress={() => navigation.goBack()}
           style={styles.backIcon}
         />
-        <View
-          style={{
-            flex: 1,
-            // height: BACKDROP_HEIGHT,
-            // width,
-            // position: "absolute",
-          }}
-        >
-          <Image
-            source={{ uri: item.poster }}
-            style={{
-              width,
-              height,
-              position: "absolute",
-            }}
-          />
+        <View style={styles.container}>
+          <Image source={{ uri: item.poster }} style={styles.posterImage} />
         </View>
-        <SlidingPanel
-          headerLayoutHeight={BACKDROP_HEIGHT / 2.8}
-          headerLayout={() => (
-            <View
-              style={{
-                flex: 1,
-                width,
-                backgroundColor: "white",
-                borderTopLeftRadius: 50,
-                borderTopRightRadius: 50,
-                justifyContent: "center",
-                alignItems: "center",
-                padding: 10,
-                paddingTop: 30,
-                paddingBottom: 20,
-              }}
+        <View style={styles.detailsContainer}>
+          <View style={styles.detailsView}>
+            <Text style={styles.title} numberOfLines={3}>
+              {item.title}
+            </Text>
+            <Rating rating={item.rating} />
+            <Genres genres={item.genres} />
+            <Text style={styles.description} numberOfLines={6}>
+              {item.description}
+            </Text>
+          </View>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-around" }}
+          >
+            <View style={styles.input}>
+              <TextInput
+                placeholder="leave a review"
+                type="text"
+                onChangeText={(text) => addComment(text)}
+                value={comment}
+                onSubmitEditing={onSubmitEditing}
+                // style={styles.srearchInput}
+              />
+            </View>
+            <Start />
+          </View>
+
+          {reviews.length > 0 ? (
+            <TouchableOpacity
+              style={styles.review}
+              onPress={() => navigation.navigate("Review", { reviews })}
             >
-              <Text style={{ fontSize: 24 }} numberOfLines={1}>
-                {item.title}
-              </Text>
-              <Rating rating={item.rating} />
-              <Genres genres={item.genres} />
-              <Text style={{ fontSize: 12, marginBottom: 6 }} numberOfLines={4}>
-                {item.description}
-              </Text>
+              <Text>SEE ALL REVIEWS ...</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={{ margin: 8 }}>
+              <Text>NO REVIEWS.... </Text>
             </View>
           )}
-          slidingPanelLayout={() =>
-            reviews.length > 0 ? (
-              <FlatList
-                data={reviews}
-                keyExtractor={(item) => item.key}
-                renderItem={ReviewCard}
-                style={{
-                  flex: 1,
-                }}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{
-                  flex: 1,
-                  width,
-                  height,
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  padding: 10,
-                  paddingTop: 30,
-                }}
-              />
-            ) : (
-              <View
-                style={{
-                  flex: 1,
-                  width,
-                  height,
-                  backgroundColor: "white",
-                  backgroundColor: "white",
-                  alignItems: "center",
-                  padding: 10,
-                  paddingTop: 30,
-                }}
-              >
-                <Text>No comments found !</Text>
-              </View>
-            )
-          }
-        />
+        </View>
       </View>
-
-      {/* <TextInput
-          style={{
-            height: 40,
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 15,
-          }}
-          placeholder="leave a comment"
-          value={comment}
-          onChangeText={addComment}
-        ></TextInput> */}
     </>
   );
 }
